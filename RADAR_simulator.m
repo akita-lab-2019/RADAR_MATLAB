@@ -16,3 +16,20 @@ time_data(1,:) = [];
 SimIn.signals.values = amp_data;
 SimIn.signals.dimensions = size(SimIn.signals.values,2);
 SimIn.time = time_data;
+
+
+% CSVから行列データを生成
+gyro_raw_data = readmatrix('test_data/gyro.csv');
+
+gyro_data = gyro_raw_data;
+gyro_data(1,:) = [];
+gyro_data(:,1) = [];
+
+gyro_time_data = gyro_raw_data(:,1);
+gyro_time_data(1,:) = [];
+
+simin_gyro.signals.values = gyro_data;
+simin_gyro.signals.dimensions = size(simin_gyro.signals.values,2);
+simin_gyro.time = gyro_time_data;
+
+
