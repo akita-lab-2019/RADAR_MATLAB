@@ -1,12 +1,18 @@
+clc;clear;
+
 % CSVから行列データを生成
-DATA = readmatrix('test_data/3.csv');
+DATA = readmatrix('test_data/1.csv');
 
-% 時間
-t = DATA(:,1);
-t(1,:) = [];
+% 振幅のみの行列にする
+amp_data = DATA;
+amp_data(1,:) = [];
+amp_data(:,1) = [];
 
-% 最大振幅が出た距離
-[a_max, d_index] = max(DATA.');
-d_index = d_index.';
-d_index(1,:) = [];
-d = d_index * (DATA(1,3) - DATA(1,2)) + DATA(1,2);
+% 時間のベクトルを生成
+time_data = DATA(:,1);
+time_data(1,:) = [];
+
+% Simulinkに読ませるデータの生成
+SimIn.signals.values = amp_data;
+SimIn.signals.dimensions = size(SimIn.signals.values,2);
+SimIn.time = time_data;
