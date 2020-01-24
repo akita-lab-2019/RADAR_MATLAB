@@ -1,24 +1,29 @@
 clc;clear;
 
+%% RADRAデータの読み込み
 % CSVから行列データを生成
-DATA = readmatrix('test_data/1.csv');
+rada_raw_data = readmatrix('test_data/1.csv');
 
 % 振幅のみの行列にする
-amp_data = DATA;
-amp_data(1,:) = [];
-amp_data(:,1) = [];
+radar_amp_data = rada_raw_data;
+radar_amp_data(1,:) = [];
+radar_amp_data(:,1) = [];
 
 % 時間のベクトルを生成
-time_data = DATA(:,1);
-time_data(1,:) = [];
+radar_time_data = rada_raw_data(:,1);
+radar_time_data(1,:) = [];
+
+% 距離のベクトルを生成
+radar_dis_data = rada_raw_data(1,:);
+radar_dis_data(:,1) = [];
 
 % Simulinkに読ませるデータの生成
-SimIn.signals.values = amp_data;
+SimIn.signals.values = radar_amp_data;
 SimIn.signals.dimensions = size(SimIn.signals.values,2);
-SimIn.time = time_data;
+SimIn.time = radar_time_data;
 
 
-% CSVから行列データを生成
+%% ジャイロデータの読み込み 
 gyro_raw_data = readmatrix('test_data/gyro.csv');
 
 gyro_data = gyro_raw_data;
@@ -33,3 +38,14 @@ simin_gyro.signals.dimensions = size(simin_gyro.signals.values,2);
 simin_gyro.time = gyro_time_data;
 
 
+%% グラフの描画
+subplot(2,1,1)
+mesh(radar_time_data, radar_dis_data, radar_amp_data.')
+view(2)
+
+subplot(2,1,2)
+plot(gyro_time_data, gyro_data)
+
+
+%% シミュレーションの終了時間を設定
+stopTime = SimIn.time(end);
