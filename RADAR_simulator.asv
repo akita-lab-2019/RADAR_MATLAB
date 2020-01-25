@@ -1,13 +1,8 @@
 clc;clear;
 
-%% 読み込むデータの選択
-select_data = 'test_data/use-LPF-High';
-
-
 %% RADRAデータの読み込み
 % CSVから行列データを生成
-rada_raw_data = readmatrix(strcat(select_data, '/4.csv'));
-rada_raw_data(end,:) = [];
+rada_raw_data = readmatrix('test_data/1.csv');
 
 % 振幅のみの行列にする
 radar_amp_data = rada_raw_data;
@@ -28,8 +23,9 @@ SimIn.signals.dimensions = size(SimIn.signals.values,2);
 SimIn.time = radar_time_data;
 
 
+
 %% ジャイロデータの読み込み 
-gyro_raw_data = readmatrix(strcat(select_data, '/gyro.csv'));
+gyro_raw_data = readmatrix('test_data/gyro.csv');
 
 gyro_data = gyro_raw_data;
 gyro_data(1,:) = [];
@@ -42,16 +38,20 @@ simin_gyro.signals.values = gyro_data;
 simin_gyro.signals.dimensions = size(simin_gyro.signals.values,2);
 simin_gyro.time = gyro_time_data;
 
-
 %% グラフの描画
 subplot(2,1,1)
 mesh(radar_time_data, radar_dis_data, radar_amp_data.')
 view(2)
+x = linspace(0,10);
+y1 = sin(x);
+plot(x,y1)
 
 subplot(2,1,2)
-plot(gyro_time_data, gyro_data)
 
 
-%% パラメータ
+%% シミュレーションの終了時間を設定
 stopTime = SimIn.time(end);
-indexToMeter = radar_dis_data(1, 2) - radar_dis_data(1, 1);
+
+
+
+
