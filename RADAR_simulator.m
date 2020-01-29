@@ -1,12 +1,12 @@
 clc;clear;
 
 %% 読み込むデータの選択
-select_data = 'test_data/use-LPF-High';
+select_data = 'test_data/use-LPF-Low';
 
 
 %% RADRAデータの読み込み
 % CSVから行列データを生成
-rada_raw_data = readmatrix(strcat(select_data, '/4.csv'));
+rada_raw_data = readmatrix(strcat(select_data, '/3.csv'));
 rada_raw_data(end,:) = [];
 
 % 振幅のみの行列にする
@@ -37,6 +37,15 @@ gyro_data(:,1) = [];
 
 gyro_time_data = gyro_raw_data(:,1);
 gyro_time_data(1,:) = [];
+
+% 余分なところをカット
+for i = 1:numel(gyro_time_data)
+    if gyro_time_data(i) > radar_time_data(end)
+        gyro_time_data(i:end) = [];
+        gyro_data(i:end) = [];
+        break;
+    end    
+end
 
 simin_gyro.signals.values = gyro_data;
 simin_gyro.signals.dimensions = size(simin_gyro.signals.values,2);
