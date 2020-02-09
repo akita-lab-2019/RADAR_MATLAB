@@ -1,7 +1,7 @@
 clc;clear;
 
 %% 読み込むデータの選択
-select_data = 'test_data/use-LPF-Low';
+select_data = 'test_data/non-LPF-High';
 
 
 %% RADRAデータの読み込み
