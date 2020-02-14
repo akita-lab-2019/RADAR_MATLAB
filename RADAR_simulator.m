@@ -29,27 +29,18 @@ SimIn.time = radar_time_data;
 
 
 %% ジャイロデータの読み込み 
-gyro_raw_data = readmatrix(strcat(select_data, '/gyro.csv'));
+acc_raw_data = readmatrix(strcat(select_data, '/acc.csv'));
 
-gyro_data = gyro_raw_data;
-gyro_data(1,:) = [];
-gyro_data(:,1) = [];
+acc_data = acc_raw_data;
+acc_data(1,:) = [];
+acc_data(:,1) = [];
 
-gyro_time_data = radar_time_data(:,1);
-gyro_time_data(1,:) = [];
+acc_time_data = radar_time_data(:,1);
+acc_time_data(1,:) = [];
 
-% 余分なところをカット
-% for i = 1:numel(gyro_time_data)
-%     if gyro_time_data(i) > radar_time_data(end)
-%         gyro_time_data(i:end) = [];
-%         gyro_data(i:end) = [];
-%         break;
-%     end    
-% end
-
-simin_gyro.signals.values = gyro_data;
-simin_gyro.signals.dimensions = size(simin_gyro.signals.values,2);
-simin_gyro.time = gyro_time_data;
+simin_acc.signals.values = acc_data;
+simin_acc.signals.dimensions = size(simin_acc.signals.values,2);
+simin_acc.time = acc_time_data;
 
 
 %% グラフの描画
@@ -59,7 +50,7 @@ view(2)
 xlim([25 35])
 ylim([0.1 0.5])
 subplot(2,1,2)
-plot(gyro_time_data, gyro_data)
+plot(acc_time_data, acc_data)
 xlim([25 35])
 
 
