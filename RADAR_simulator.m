@@ -35,17 +35,17 @@ gyro_data = gyro_raw_data;
 gyro_data(1,:) = [];
 gyro_data(:,1) = [];
 
-gyro_time_data = gyro_raw_data(:,1);
+gyro_time_data = radar_time_data(:,1);
 gyro_time_data(1,:) = [];
 
 % 余分なところをカット
-for i = 1:numel(gyro_time_data)
-    if gyro_time_data(i) > radar_time_data(end)
-        gyro_time_data(i:end) = [];
-        gyro_data(i:end) = [];
-        break;
-    end    
-end
+% for i = 1:numel(gyro_time_data)
+%     if gyro_time_data(i) > radar_time_data(end)
+%         gyro_time_data(i:end) = [];
+%         gyro_data(i:end) = [];
+%         break;
+%     end    
+% end
 
 simin_gyro.signals.values = gyro_data;
 simin_gyro.signals.dimensions = size(simin_gyro.signals.values,2);
@@ -56,9 +56,11 @@ simin_gyro.time = gyro_time_data;
 subplot(2,1,1)
 mesh(radar_time_data, radar_dis_data, radar_amp_data.')
 view(2)
-
+xlim([25 35])
+ylim([0.1 0.5])
 subplot(2,1,2)
 plot(gyro_time_data, gyro_data)
+xlim([25 35])
 
 
 %% パラメータ
